@@ -1,24 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
-
+import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import ToDoContext from './context/ToDoContext';
+import ToDoList from './Comp/ToDoList';
+import ToDo from './Comp/ToDo';
+import Completed from './Comp/Completed';
+import UnCompleted from './Comp/UnCompleted';
 function App() {
+  const [data, setData] = useState([]);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ToDoContext.Provider value={{ data, setData }}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<ToDoList />}>
+           <Route index element={<ToDo/>} />
+            <Route path="completed" element={<Completed />} />
+            <Route path="uncompleted" element={<UnCompleted />} />
+          </Route>
+        </Routes>
+      </Router>
+    </ToDoContext.Provider>
   );
 }
 
